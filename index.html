@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>只为你而来 ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #d32f2f;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+    .btns {
+      margin-top: 20px;
+    }
+    button {
+      padding: 12px 30px;
+      margin: 0 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #accept {
+      background: #ff4081;
+      color: white;
+      box-shadow: 0 4px 10px rgba(255,64,129,0.4);
+    }
+    #reject {
+      background: white;
+      color: #555;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .heart {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>我喜欢你很久了<br>愿意做我的另一半吗？</h1>
+  <div class="btns">
+    <button id="accept">愿意 ❤️</button>
+    <button id="reject">不愿意 😢</button>
+  </div>
+
+  <!-- 可选：背景音乐（使用公开可访问的 MP3 链接） -->
+  <!-- 如果你有自己的音乐，可上传到 Gitee 并替换 src -->
+  <audio id="music" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b5e9c3c9b.mp3?filename=romantic-guitar-love-music-14423.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const rejectBtn = document.getElementById('reject');
+    const acceptBtn = document.getElementById('accept');
+    const music = document.getElementById('music');
+
+    // 拒绝按钮逃跑
+    rejectBtn.addEventListener('mouseover', () => {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+      rejectBtn.style.position = 'absolute';
+      rejectBtn.style.left = `${x}px`;
+      rejectBtn.style.top = `${y}px`;
+    });
+
+    // 接受按钮点击
+    acceptBtn.addEventListener('click', () => {
+      alert('太好了！我就知道你会答应我 ❤️');
+      // 尝试播放音乐
+      music.play().catch(e => console.log("音乐播放被阻止（需用户交互）"));
+      createHearts();
+    });
+
+    // 爱心动画
+    function createHearts() {
+      for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.innerHTML = '❤️';
+          heart.className = 'heart';
+          heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+          heart.style.left = Math.random() * 100 + 'vw';
+          heart.style.opacity = '1';
+          heart.style.animation = 'fall 4s ease-in forwards';
+          document.body.appendChild(heart);
+
+          // 动态添加 CSS 动画（仅一次）
+          if (!document.getElementById('fall-style')) {
+            const style = document.createElement('style');
+            style.id = 'fall-style';
+            style.textContent = `
+              @keyframes fall {
+                0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+        }, i * 80);
+      }
+    }
+  </script>
+</body>
+</html>
